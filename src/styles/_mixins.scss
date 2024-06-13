@@ -1,0 +1,40 @@
+@use 'sass:math';
+
+@mixin dashed-border(
+  $border-thickness,
+  $dash-length,
+  $gap-length,
+  $border-radius,
+  $dash-offset
+) {
+  border-radius: $border-radius;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"><rect width="100%" height="100%" fill="none" stroke="%239a9da4" stroke-width="' + $border-thickness + '" stroke-dasharray="' + $dash-length + ',' + $gap-length + '" stroke-linecap="round" rx="' + $border-radius + '" ry="' + $border-radius + '" stroke-dashoffset="' + $dash-offset + '"/></svg>');
+}
+
+@mixin triangle($width: 8px, $direction: 'down', $color: currentColor) {
+  @if $direction == 'top' {
+    width: 0;
+    height: 0;
+    border-left: math.div($width, 2) solid transparent;
+    border-right: math.div($width, 2) solid transparent;
+    border-bottom: math.div($width, 2) solid $color;
+  } @else if $direction == 'left' {
+    width: 0;
+    height: 0;
+    border-top: math.div($width, 2) solid transparent;
+    border-bottom: math.div($width, 2) solid transparent;
+    border-right: math.div($width, 2) solid $color;
+  } @else if $direction == 'right' {
+    width: 0;
+    height: 0;
+    border-top: math.div($width, 2) solid transparent;
+    border-bottom: math.div($width, 2) solid transparent;
+    border-left: math.div($width, 2) solid $color;
+  } @else {
+    width: 0;
+    height: 0;
+    border-left: math.div($width, 2) solid transparent;
+    border-right: math.div($width, 2) solid transparent;
+    border-top: math.div($width, 2) solid $color;
+  }
+}
