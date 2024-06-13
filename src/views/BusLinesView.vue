@@ -1,31 +1,82 @@
 <template>
-  <div class="bus-lines px-4 pt-4">
+  <div class="bus-lines px-4 pt-4 rounded-2">
     <p class="bus-lines__header">Select Bus Line</p>
-    <BusLinesList :bus-lines="busLines" @line-selected="handleLineSelected" />
+    <BusLinesList
+      :bus-lines="busLines"
+      @line-selected="handleBusLineSelected"
+    />
+  </div>
+  <div class="row gx-3 my-3">
+    <div class="col-md-6">
+      <div class="select-data py-4" :class="{ 'no-data': !selectedLine }">
+        <p v-if="!selectedLine">Please select the bus line first</p>
+        <BaseList
+          v-else
+          :items="selectedLineStops"
+          :header="'Bus Line: ' + selectedLine"
+          subheader="Bus Stops"
+          itemLabelKey="stop"
+          sortKey="order"
+          :selectable="true"
+          v-model="selectedStop"
+          initialOrder="asc"
+        />
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div
+        class="select-data py-4"
+        :class="{ 'no-data': !selectedLine || !selectedStop }"
+      >
+        <p v-if="!selectedLine">Please select the bus line first</p>
+        <p v-else-if="!selectedStop">Please select the bus stop first</p>
+        <BaseList
+          v-else
+          :items="selectedStopTimes"
+          :header="'Bus Stop: ' + selectedStop"
+          subheader="Time"
+          :sortable="false"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useStore } from 'vuex'
 import BusLinesList from '@/components/BusLinesList.vue'
-import { BusStopTimetable, BusLine } from '@/types/BusStopTimetable'
+import BaseList from '@/components/BaseList.vue'
+import { BusStopTimetable, BusStopDetails } from '@/types/BusStopTimetable'
+import { sortHours } from '@/utils/sort-hours'
 
 const store = useStore()
 const busStopsTimetable = computed(
   () => store.getters.busStopsTimetable as BusStopTimetable
 )
-const busLines = computed(() => Object.keys(busStopsTimetable.value))
+const busLines = computed(() =>
+  Object.keys(busStopsTimetable.value).map(Number)
+)
 
 const selectedLine = ref<keyof BusStopTimetable | null>(null)
 const selectedStop = ref<string | null>(null)
-const selectedLineStops = ref<BusLine>({})
+const selectedLineStops = ref<BusStopDetails[]>([])
+const selectedStopTimes = ref<string[]>([])
 
-const handleLineSelected = (line: keyof BusStopTimetable) => {
+watch(selectedStop, () => {
+  selectedStopTimes.value =
+    selectedLine.value && selectedStop.value
+      ? sortHours(
+          busStopsTimetable.value[selectedLine.value][selectedStop.value].times
+        )
+      : []
+})
+
+const handleBusLineSelected = (line: keyof BusStopTimetable) => {
   selectedLine.value = line
   selectedLineStops.value = selectedLine.value
-    ? busStopsTimetable.value[selectedLine.value]
-    : {}
+    ? [...Object.values(busStopsTimetable.value[selectedLine.value])]
+    : []
   selectedStop.value = null
 }
 </script>
@@ -40,6 +91,24 @@ const handleLineSelected = (line: keyof BusStopTimetable) => {
   &__header {
     font-size: 14px;
     font-weight: 600;
+  }
+}
+
+.select-data {
+  width: 100%;
+  background-color: $white;
+  height: 444px;
+
+  &.no-data {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+    @include dashed-border(4px, 30, 30, 3, 20);
+  }
+
+  p {
+    color: $gray;
   }
 }
 </style>

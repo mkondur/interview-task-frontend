@@ -1,6 +1,7 @@
 import { createStore } from 'vuex'
 import { BusStop } from '@/types/BusStop'
 import { getBusStops } from '@/services/api'
+import { busStopsToTimetable } from '@/utils/bus-stops-to-timetable'
 
 interface State {
   busStops: BusStop[]
@@ -8,7 +9,7 @@ interface State {
   error: string | null
 }
 
-export default createStore({
+export default createStore<State>({
   state: {
     busStops: [],
     loading: false,
@@ -18,6 +19,7 @@ export default createStore({
     busStops: (state: State) => state.busStops,
     loading: (state: State) => state.loading,
     error: (state: State) => state.error,
+    busStopsTimetable: (state: State) => busStopsToTimetable(state.busStops),
   },
   mutations: {
     setBusStops(state: State, busStops: BusStop[]) {
@@ -36,7 +38,7 @@ export default createStore({
       commit('setError', null)
       try {
         const response = await getBusStops()
-        commit('setBusStops', response.data.stops)
+        commit('setBusStops', response.data)
       } catch (error) {
         commit('setError', 'Failed to fetch bus stops')
       } finally {

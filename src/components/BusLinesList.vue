@@ -18,14 +18,14 @@
 import { defineProps, ref } from 'vue'
 
 defineProps<{
-  busLines: string[]
+  busLines: number[]
 }>()
 
 const emit = defineEmits(['lineSelected'])
 
-const selectedLine = ref('')
+const selectedLine = ref()
 
-const selectLine = (line: string) => {
+const selectLine = (line: number) => {
   selectedLine.value = line
   emit('lineSelected', line)
 }
