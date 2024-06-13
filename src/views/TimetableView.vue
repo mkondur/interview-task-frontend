@@ -1,11 +1,11 @@
 <template>
-  <div class="container mt-5">
-    <h1>Timetable</h1>
+  <div class="container my-5">
+    <h4 class="mb-4">Timetable</h4>
     <TimetableNav />
-    <div class="mt-4">
+    <div class="mt-3">
       <div v-if="loading" class="text-center">Loading...</div>
-      <div v-if="error" class="text-center text-danger">{{ error }}</div>
-      <RouterView v-if="!loading && !error" />
+      <div v-else-if="error" class="text-center text-danger">{{ error }}</div>
+      <RouterView v-else />
     </div>
   </div>
 </template>
