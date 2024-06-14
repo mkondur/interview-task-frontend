@@ -34,8 +34,10 @@ interface AnyObject {
   [key: string]: unknown
 }
 
+type Item = AnyObject | string | number
+
 export interface Props {
-  items: any[]
+  items: Item[]
   header?: string
   subheader?: string
   itemLabelKey?: string
@@ -43,7 +45,7 @@ export interface Props {
   selectable?: boolean
   sortable?: boolean
   initialOrder?: 'asc' | 'desc'
-  modelValue?: any
+  modelValue?: Item
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -59,11 +61,11 @@ const toggleSortOrder = () => {
   sortOrder.value = sortOrder.value === 'asc' ? 'desc' : 'asc'
 }
 
-const selectItem = (item: AnyObject | string) => {
+const selectItem = (item: Item) => {
   emit('update:modelValue', itemLabel(item))
 }
 
-const itemLabel = (item: AnyObject | string) =>
+const itemLabel = (item: Item) =>
   props.itemLabelKey && typeof item === 'object'
     ? item[props.itemLabelKey as keyof typeof item]
     : item

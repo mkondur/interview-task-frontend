@@ -53,7 +53,7 @@ import { useBusStops } from '@/composables/useBusStops'
 const { busLines, busStopsTimetable } = useBusStops()
 
 const selectedLine = ref<keyof BusStopTimetable | null>(null)
-const selectedStop = ref<string | null>(null)
+const selectedStop = ref<string>()
 const selectedLineStops = ref<BusStopDetails[]>([])
 const selectedStopTimes = ref<string[]>([])
 
@@ -71,7 +71,7 @@ const handleBusLineSelected = (line: keyof BusStopTimetable) => {
   selectedLineStops.value = selectedLine.value
     ? [...Object.values(busStopsTimetable.value[selectedLine.value])]
     : []
-  selectedStop.value = null
+  selectedStop.value = undefined
 }
 </script>
 
