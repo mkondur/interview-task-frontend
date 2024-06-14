@@ -97,8 +97,11 @@ const handleBusLineSelected = (line: keyof BusStopTimetable) => {
     display: flex;
     justify-content: center;
     align-items: center;
+    border: 2px solid transparent;
+    border-image-source: url('../assets/dashed-border.png');
+    border-image-slice: 20;
+    border-image-width: 10;
     border-radius: 4px;
-    @include dashed-border(4px, 30, 30, 3, 20);
   }
 
   p {
