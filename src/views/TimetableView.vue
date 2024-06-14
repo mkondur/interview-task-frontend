@@ -3,8 +3,10 @@
     <h4 class="mb-4">Timetable</h4>
     <TimetableNav />
     <div class="mt-3">
-      <div v-if="loading" class="text-center">Loading...</div>
-      <div v-else-if="error" class="text-center text-danger">{{ error }}</div>
+      <div v-if="isLoading" class="text-center">Loading...</div>
+      <div v-else-if="fetchError" class="text-center text-danger">
+        {{ fetchError }}
+      </div>
       <RouterView v-else />
     </div>
   </div>
@@ -12,14 +14,12 @@
 
 <script lang="ts" setup>
 import TimetableNav from '../components/TimetableNav.vue'
-import { onMounted, computed } from 'vue'
-import { useStore } from 'vuex'
-const store = useStore()
+import { onMounted } from 'vue'
+import { useBusStops } from '@/composables/useBusStops'
 
-const loading = computed(() => store.getters.loading)
-const error = computed(() => store.getters.error)
+const { fetchBusStops, isLoading, fetchError } = useBusStops()
 
 onMounted(() => {
-  store.dispatch('fetchBusStops')
+  fetchBusStops()
 })
 </script>

@@ -43,20 +43,14 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, watch } from 'vue'
-import { useStore } from 'vuex'
+import { ref, watch } from 'vue'
 import BusLinesList from '@/components/BusLinesList.vue'
 import BaseList from '@/components/BaseList.vue'
 import { BusStopTimetable, BusStopDetails } from '@/types/BusStopTimetable'
 import { sortHours } from '@/utils/sort-hours'
+import { useBusStops } from '@/composables/useBusStops'
 
-const store = useStore()
-const busStopsTimetable = computed(
-  () => store.getters.busStopsTimetable as BusStopTimetable
-)
-const busLines = computed(() =>
-  Object.keys(busStopsTimetable.value).map(Number)
-)
+const { busLines, busStopsTimetable } = useBusStops()
 
 const selectedLine = ref<keyof BusStopTimetable | null>(null)
 const selectedStop = ref<string | null>(null)
