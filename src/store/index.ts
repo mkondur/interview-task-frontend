@@ -3,7 +3,7 @@ import { BusStop } from '@/types/BusStop'
 import { getBusStops } from '@/services/api'
 import { busStopsToTimetable } from '@/utils/bus-stops-to-timetable'
 
-interface State {
+export interface State {
   busStops: BusStop[]
   loading: boolean
   error: string | null
