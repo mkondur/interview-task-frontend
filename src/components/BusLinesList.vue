@@ -1,21 +1,19 @@
 <template>
-  <div class="">
-    <div class="d-flex flex-wrap gap-2 py-3">
-      <button
-        v-for="line in busLines"
-        :key="line"
-        class="btn btn-primary line"
-        :class="{ active: selectedLine === line }"
-        @click="selectLine(line)"
-      >
-        {{ line }}
-      </button>
-    </div>
+  <div class="d-flex flex-wrap gap-2 py-3">
+    <button
+      v-for="line in busLines"
+      :key="line"
+      class="btn btn-primary line"
+      :class="{ active: selectedLine === line }"
+      @click="selectLine(line)"
+    >
+      {{ line }}
+    </button>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { defineProps, ref } from 'vue'
+import { ref } from 'vue'
 
 defineProps<{
   busLines: number[]
