@@ -1,42 +1,44 @@
 <template>
-  <div class="bus-lines px-4 pt-4 rounded-2">
-    <p class="bus-lines__header">Select Bus Line</p>
-    <BusLinesList
-      :bus-lines="busLines"
-      @line-selected="handleBusLineSelected"
-    />
-  </div>
-  <div class="row gx-3 my-3">
-    <div class="col-md-6">
-      <div class="select-data py-4" :class="{ 'no-data': !selectedLine }">
-        <p v-if="!selectedLine">Please select the bus line first</p>
-        <BaseList
-          v-else
-          :items="selectedLineStops"
-          :header="'Bus Line: ' + selectedLine"
-          subheader="Bus Stops"
-          itemLabelKey="stop"
-          sortKey="order"
-          :selectable="true"
-          v-model="selectedStop"
-          initialOrder="asc"
-        />
-      </div>
+  <div>
+    <div class="bus-lines px-4 pt-4 rounded-2">
+      <p class="bus-lines__header">Select Bus Line</p>
+      <BusLinesList
+        :bus-lines="busLines"
+        @line-selected="handleBusLineSelected"
+      />
     </div>
-    <div class="col-md-6">
-      <div
-        class="select-data py-4"
-        :class="{ 'no-data': !selectedLine || !selectedStop }"
-      >
-        <p v-if="!selectedLine">Please select the bus line first</p>
-        <p v-else-if="!selectedStop">Please select the bus stop first</p>
-        <BaseList
-          v-else
-          :items="selectedStopTimes"
-          :header="'Bus Stop: ' + selectedStop"
-          subheader="Time"
-          :sortable="false"
-        />
+    <div class="row gx-3 my-3">
+      <div class="col-md-6">
+        <div class="select-data py-4" :class="{ 'no-data': !selectedLine }">
+          <p v-if="!selectedLine">Please select the bus line first</p>
+          <BaseList
+            v-else
+            :items="selectedLineStops"
+            :header="'Bus Line: ' + selectedLine"
+            subheader="Bus Stops"
+            itemLabelKey="stop"
+            sortKey="order"
+            :selectable="true"
+            v-model="selectedStop"
+            initialOrder="asc"
+          />
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div
+          class="select-data py-4"
+          :class="{ 'no-data': !selectedLine || !selectedStop }"
+        >
+          <p v-if="!selectedLine">Please select the bus line first</p>
+          <p v-else-if="!selectedStop">Please select the bus stop first</p>
+          <BaseList
+            v-else
+            :items="selectedStopTimes"
+            :header="'Bus Stop: ' + selectedStop"
+            subheader="Time"
+            :sortable="false"
+          />
+        </div>
       </div>
     </div>
   </div>
