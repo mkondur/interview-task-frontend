@@ -9,7 +9,10 @@
     </div>
     <div class="row gx-3 my-3">
       <div class="col-md-6">
-        <div class="select-data py-4" :class="{ 'no-data': !selectedLine }">
+        <div
+          class="select-data select-data--bus-stop py-4"
+          :class="{ 'no-data': !selectedLine }"
+        >
           <p v-if="!selectedLine">Please select the bus line first</p>
           <BaseList
             v-else
@@ -26,7 +29,7 @@
       </div>
       <div class="col-md-6">
         <div
-          class="select-data py-4"
+          class="select-data select-data--stop-time py-4"
           :class="{ 'no-data': !selectedLine || !selectedStop }"
         >
           <p v-if="!selectedLine">Please select the bus line first</p>

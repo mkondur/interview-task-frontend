@@ -7,7 +7,9 @@
       <div v-else-if="fetchError" class="text-center text-danger">
         {{ fetchError }}
       </div>
-      <RouterView v-else />
+      <div v-else class="timetable-content">
+        <RouterView />
+      </div>
     </div>
   </div>
 </template>
